@@ -10,7 +10,7 @@ int main(void){
     cout<<"*pt = "<<*pt<<endl;//此时pt仍指向第二个元素值为21
     cout<<"(*pt)++ ="<<(*pt)++<<endl;//先取出第二个元素21，后缀++先打印，再加一，此时第二个元素为22
     cout<<"*pt = "<<*pt<<endl;//此时pt仍指向第二个元素值为22
-    cout<<"*pt++ ="<<*pt++<<endl;
-    cout<<"*pt = "<<*pt<<endl;
+    cout<<"*pt++ ="<<*pt++<<endl;//后缀等级高于取值，对pt进行后缀++，即先计算表达式再对pt加一，*pt++指向第二个元素，运算完成后pt指向第三个元素
+    cout<<"*pt = "<<*pt<<endl;//此时pt指向第三个元素值为30
     return 0;
 }
