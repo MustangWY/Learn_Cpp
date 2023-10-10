@@ -6,11 +6,11 @@ int main (void){
     cin>>roll;
     for (int i = 1; i <= roll; i++)
     {
-        for (int j = roll-i; j >= 0; j--)
+        for (int j = roll-i; j > 0; j--)
         {
             cout<<".";
         }
-        for (int z=1; z <= i; z++)
+        for (int z=1; z <=i; z++)
         {
             cout<<'*';
             /* code */
@@ -19,6 +19,7 @@ int main (void){
         
         /* code */
     }
-    
+    cin.get();
+    cin.get();
     return 0;
 }

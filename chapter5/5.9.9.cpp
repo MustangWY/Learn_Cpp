@@ -9,6 +9,7 @@ int main (void){
     {
         cout<<"Enter words (To stop enter the word done)";
         cin>>word;
+        cin.get();
         i++;
         /* code */
     } while (word!="done");

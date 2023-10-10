@@ -6,7 +6,7 @@ int main(void){
     double Daphne_invest,Daphne_Total;
     double Cleo_invest,Cleo_Total;
     Daphne_invest=Cleo_invest=Daphne_Total=Cleo_Total=100.0;
-    int year=1;
+    int year=0;
     while(Daphne_Total>=Cleo_Total){
         Daphne_Total+=Daphne_invest*ProfitRate1;
         Cleo_Total+=Cleo_Total*ProfitRate2;

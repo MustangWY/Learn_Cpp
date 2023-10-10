@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 int main(void){
-    int i,sum = 0;
+    double i,sum = 0;
     do{
         cout<<"Please enter a number:";
         cin>>i;

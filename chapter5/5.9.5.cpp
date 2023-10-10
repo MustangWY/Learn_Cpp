@@ -18,7 +18,7 @@ int main(void){
     int sell[12];
     for (int i = 0; i < 12; i++)
     {
-        cout<<"Please enter "<<month[i]<< " sold number";
+        cout<<"Please enter "<<month[i]<< " sold number: ";
         cin>>sell[i];
         /* code */
     }

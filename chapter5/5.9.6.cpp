@@ -40,7 +40,7 @@ int main(void){
             
             /* code */
         }
-        cout<<"The book sold "<<sum_year[i]<<" copies in year"<<i<<endl;
+        cout<<"The book sold "<<sum_year[i]<<" copies in year"<<i+1<<endl;
     sum+=sum_year[i];
         /* code */
     }
