@@ -12,7 +12,7 @@ int main(void){
         cout<<"Enter an intiger: ";
         cin>>times;
         n_chars(ch,times);
-        cout<<"Enter another intiger or enter q to quit.";
+        cout<<"\nEnter another intiger or enter q to quit.";
         cin>>ch;
     }
 
