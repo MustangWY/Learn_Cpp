@@ -1,0 +1,13 @@
+void reverse_array(double *begin,double *end){
+    double temp;
+    double* i=begin;
+    double* j=end;
+    for (i,j; i!=j; i++,j--)
+    {   
+        temp = *(i);
+        *(i)=*(j);
+        *(j)=temp;
+        /* code */
+    }
+    
+}

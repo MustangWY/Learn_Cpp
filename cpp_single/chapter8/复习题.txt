@@ -1,0 +1,52 @@
+1.需要多次调用的代码量很小的函数，并且不能出现递归调用。
+2. a. void song(const char * name, int times = 1);
+   b. 不需要修改，默认参数只在函数声明中体现函数定义中不体现。
+   c. 可以，设置默认值要有从右到左的顺序，需要先将times设置为默认值
+      void song(const char * name = "O.My Papa", int times = 1);
+3. #include<iostream>
+   #include<string>
+    void iquote(int n){
+    std::cout<<"\""<<n<<"\""<<endl;
+    }
+    void iquote(double n){
+        std::cout<<"\""<<n<<"\""<<endl;
+    }
+    void iquote(string str){
+        std::cout<<"\""<<str<<"\""<<endl;
+    }
+4. a.
+    void show_box(const box &b){
+        cout<<b.maker<<endl;
+        cout<<b.height<<endl;
+        cout<<b.width<<endl;
+        cout<<b.length<<endl;
+        cout<<b.volume<<endl;
+    }
+    b.void set_volume(box &b){
+        b.volume = b.height*b.width*b.length;
+    }
+5.void fill(std::array<double,Seasons> &pa);
+  void fill(const std::array<double,Seasons> &pa);
+  fill(expense);
+  函数中(*pa)改为pa；
+6. 
+  a.默认参数：double mass(double density, double volume = 1.0);
+  b.函数重载
+    void show(int times, const string &str);//void show(int times, const char *str);
+    void show(const string &str, int times = 5);
+  c.函数重载
+    int average(int a, int b);
+    double average (double a, double b);
+  d.无法完成
+7.template <class T>
+  T Max(T a, T b){
+    return a>b ？ a : b ;
+  }
+8.template<> box Max<box>(const box &a, const box &b){
+    return a.volume>b.volume?a.volume:b.volume;
+}
+9.v1: float;
+  v2: float &;
+  v3: float &;
+  v4: int；
+  v5: double;

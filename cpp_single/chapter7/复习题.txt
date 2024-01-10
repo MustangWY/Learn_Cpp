@@ -1,0 +1,49 @@
+1.函数定义，函数调用，给出函数原型
+2.void igorr(void);
+  float tofu(int);
+  double mpg(double , double);
+  long summation(long av[],int n);
+  double doctor(const char* );
+  void ofcourse(boss bs);
+  char *plot(map *pt);
+3.void set_array(int ar[], int length, int n){
+    for(int i = 0,i<length,i++)
+    {
+      ar[i]=n;
+    }
+}
+4.void set_array(int* begin, int* end, int n){
+    for(int* pt = begin,pt!=end,pt++)
+    {
+      *pt=n;
+    }
+}
+5.double max_number(const double arr[],int size){
+    double max = arr[0];
+    for(int i = 1,i<size,i++){
+      if(max<arr[i]){
+        max = arr[i];
+      }
+    }
+    return (max<arr[i])?arr[i]:max;
+}
+max = (max<arr[i])? arr[i]:max 三目运算符 从右到左的结合顺序
+6.基本数据类型按值传递，传入函数是形参，使用指针需要使用const
+7.char str[] = "Hello world"
+  "Hello world"
+  const char* pt = "Hello world" pt是指向字符串数组第一个的指针
+8.
+9.*"pizza" = p 字符串本身是指向字符串数组第一个字符的指针，对其解除引用得到其中的值，即为p
+  "taco"->int *pt = "taco"->>pt[2]->c 指向数组的指针可以当作数组名来使用，后加方括号表示数组中的某个元素，但是其本身仍是指针，对于结构体数组来说，pt.a是不允许的。
+10.(glitz)
+   (&glitz)
+   按值传递通过传递结构体副本可以保护原始数据，但是效率较低，同时也浪费内存。
+   按地址传递效率高，节省内存，但是不能保护原始数据，需要使用const关键字来保护原视数据
+11.int judge (int (*pf) (const char*));
+
+13.typedef void (*p_f1)(application *a);
+   p_f1 p1 = f1;
+   typedef void (*p_f2)(const application *a1, const applicant * a2);
+   p_f2 p2 = f2;
+   p_f1 ap[5];
+   p_f2 (*pa)[10];
