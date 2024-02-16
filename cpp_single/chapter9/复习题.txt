@@ -1,0 +1,57 @@
+1.
+    a.自动变量
+    b.静态变量，外部链接性
+    c.静态变量，内部链接性
+    d.静态变量，局部作用域，无链接性
+2.  using声明将名称空间中的特定名称添加到局部声明区域中，
+    而using编译指令将名称空间中的所有名称都添加到局部声明中。
+    using声明将名称添加到局部声明区域中之后，就像是声明了相应的名称一样，后面不能声明相应的名称
+    using编译指令进行名称解析，局部名称会隐藏空间名称。
+3.  #include<iostream>
+    int main(void){
+        double x;
+        std::cout<<"Enter values: ";
+        while(!(std::cin>>x)){
+            std::cout<<"Bad input. Please enter a number: ";
+            std::cin.clear();
+            while(std::cin.get()!='\n');
+                continue;
+            
+        }
+        std::cout<<"Value = "<<x<<endl;
+        return 0;
+    }
+4.  #include<iostream
+    int main(void){
+        double x;
+        using std::cout;
+        using std::cin;
+        cout<<"Enter values: ";
+        while(!(cin>>x)){
+            cout<<"Bad input. Please enter a number: ";
+            cin.clear();
+            while(cin.get()!='\n');
+                continue;
+            
+        }
+        cout<<"Value = "<<x<<endl;
+        return 0;
+
+    }
+5.  namespace a{
+        int average(int , int);
+    }
+    namespace b{
+        double average(int , int);
+    }
+6.  10
+    4
+    0
+    Other: 10, 1
+    another(): 10, -4
+7.  1
+    4, 1, 2
+    2
+    2
+    4, 1, 2
+    2
