@@ -10,7 +10,7 @@ typedef struct custumer
 
 class Stack{
     private:
-    enum {Max = 10};
+    enum {Max = 10};        //static const int Max = 10;
     Item items[Max];
     double total;
     int top;
