@@ -15,6 +15,8 @@ typedef struct
     /* data */
 }Sqlist;
 
+
+
 void MergeList_Sq(Sqlist L1, Sqlist L2, Sqlist &L3);
 int LocateElem_Sq(Sqlist L, ElemType e, int (*compare) (ElemType, ElemType));
 int InitList_SQ(Sqlist &L);
@@ -62,7 +64,7 @@ int ListInsert_Sq(Sqlist &l, int i, ElemType e){            //时间复杂度n/2
         *(p+1) = *p;
         p--;
         /* code */
-    }               //指针p指向线性表末尾，指针q指向插入位置，只要指针p不等于指针q，那么p指向的后一个元素等于p指向的元素，将p--得到下一个。
+    }               //指针p指向线性表末尾，指针q指向插入位置，只要指针p不等于指针q，那么p指向的后一个元素等于p指向的元素，全部元素向后挪，将p--得到下一个。
     
     *q = e;
     l.length++;
@@ -89,9 +91,14 @@ int ListDelete_Sq(Sqlist &L, int i, ElemType &e){           //时间复杂度：
     
 
 }
+
+
 int IsEqual(ElemType e1, ElemType e2){
     return (e1 == e2);
 }
+
+
+
 
 int LocateElem_Sq(Sqlist L, ElemType e, int (*compare) (ElemType, ElemType)){
     int i = 0;
@@ -107,6 +114,9 @@ int LocateElem_Sq(Sqlist L, ElemType e, int (*compare) (ElemType, ElemType)){
         /* code */
     }else return 0;
 }
+
+
+
 
 void MergeList_Sq(Sqlist L1, Sqlist L2, Sqlist &L3){
     InitList_SQ(L3);

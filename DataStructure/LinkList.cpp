@@ -88,7 +88,7 @@ bool ListDelete_L(LinkList &L, int i, ElemType &e){
         p=p->next;
         j++;
     }
-    if (!p||j>i-1) return false;
+    if (!(p->next)||j>i-1) return false;
     e = p->data;
     LinkList q = p->next;
     p->next = q->next;
@@ -166,10 +166,27 @@ void ShowLinkList(const LinkList &l){
 
 void MergList_L(LinkList &La,LinkList &Lb,LinkList &Lc){
     LinkList pa,pb,pc;
-    pa = La->next;
+    pa = La->next;          //pa,pb分别指向要比较的元素（非头节点）
     pb = Lb->next;
-    pc = Lc->next;
+    Lc = pc = La;           //pc指向a链表的头节点，这里使用a链表的头节点当作c链表的头节点
+    while (pa&&pb)
+    {   
+        if (pa->data<=pb->data)     //如果pa的元素大于pb的元素
+        {   
+            pc->next = pa;          //将pa所指元素连接到pc所指元素之后
+            pc = pa;                //将pc等于pa，相当于pc链表往后移一个元素
+            pa = pa->next;         
+            /* code */
+        }else{
+            pc->next = pb;
+            pc = pb;            //将pb所指元素连接到pc所指元素之后
+            pb = pb->next;
+            }
+        /* code */
+    }
 
+    pc->next = pa?pa:pb;        //上面将la,lb链表相同数目部分连接完毕，只要看pa，pb指针哪个后面还有元素，将pc直接连接还有元素的指针就行
+    delete Lb;
 
 }
 
