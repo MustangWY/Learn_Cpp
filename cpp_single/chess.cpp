@@ -43,6 +43,7 @@ void player(int i){
     cin>>x;
     cin.get();
     cin>>y;
+    cin.get();
     if (i == 1)
     {   
         map[x][y].display = 'X';
@@ -64,11 +65,12 @@ int checkmate(){
     int h = 0,v = 0,l = 0,r = 0;
     for (int i = 0; i < 10; i++)
     {   
-        for(int j = 0; j < 10; j++)
-        {
-            for (int k = 0; k <= 4; k++)
+
+        for(int j = 0; j < 5; j++)
+        {   h = 0;                      //注意每次遍历表格将计数器置零
+            for (int k = 0; k <= 5; k++)
             {
-               if (j+k<10&&map[i][j].flag==map[i][j+k].flag&&map[i][j].flag!=0)
+               if (map[i][j].flag==map[i][j+k].flag&&map[i][j].flag!=0)
                {
                     h++;
                     if (h == 5&&map[i][j].flag ==1)
@@ -90,13 +92,13 @@ int checkmate(){
         /* code */
     }
 
-     for (int i = 0; i < 10; i++)
+     for (int i = 0; i <= 5; i++)
     {   
         for(int j = 0; j < 10; j++)
-        {
+        {   v = 0;
             for (int k = 0; k <= 4; k++)
             {
-               if (i+k<10&&map[i][j].flag==map[i+k][j].flag&&map[i][j].flag!=0)
+               if (map[i][j].flag==map[i+k][j].flag&&map[i][j].flag!=0)
                {
                     v++;
                     if (v == 5&&map[i][j].flag ==1)
@@ -117,13 +119,13 @@ int checkmate(){
         /* code */
     }
     
-     for (int i = 0; i < 10; i++)
+     for (int i = 0; i <= 5; i++)
     {   
-        for(int j = 0; j < 10; j++)
-        {
+        for(int j = 0; j <= 5; j++)
+        {   r = 0;
             for (int k = 0; k <= 4; k++)
             {
-               if (j+k<10&&map[i][j].flag==map[i+k][j+k].flag&&map[i][j].flag!=0)
+               if (map[i][j].flag==map[i+k][j+k].flag&&map[i][j].flag!=0)
                {
                     r++;
                     if (r == 5&&map[i][j].flag ==1)
@@ -144,13 +146,13 @@ int checkmate(){
         /* code */
     }
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 4; i < 10; i++)
     {   
-        for(int j = 0; j < 10; j++)
-        {
+        for(int j = 0; j <= 5; j++)
+        {   l = 0;
             for (int k = 0; k <= 4; k++)
             {
-               if (j+k<10&&map[i][j].flag==map[i-k][j+k].flag&&map[i][j].flag!=0)
+               if (map[i][j].flag==map[i-k][j+k].flag&&map[i][j].flag!=0)
                {
                     l++;
                     if (l == 5&&map[i][j].flag ==1)
@@ -170,6 +172,7 @@ int checkmate(){
         }
         /* code */
     }
+    return winner;
 
 }
 
