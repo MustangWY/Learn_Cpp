@@ -44,6 +44,13 @@ void player(int i){
     cin.get();
     cin>>y;
     cin.get();
+    while(map[x][y].flag){
+        cout<<"Already a pawn, please enter again:";
+        cin>>x;
+        cin.get();
+        cin>>y;
+        cin.get();
+    }
     if (i == 1)
     {   
         map[x][y].display = 'X';
@@ -56,9 +63,9 @@ void player(int i){
         /* code */
     }
     
-    
+    }
 
-}
+
 
 int checkmate(){
     int winner = 0;
@@ -180,13 +187,24 @@ int main(void){
     initMap();
     showMap();
     int winner = 0;
+    int count = 9;
     while (!winner)
     {   
         player(1);
+        count++;
         player(2);
+        count++;
         showMap();
         winner = checkmate(); 
+        if (count >= 100)
+        {   
+            cout<<"Board full, draw.\n";
+            break;
+            /* code */
+        }
+        
     }
+    
     cout<<"Player "<<winner<<" won! "<<endl;
     return 0;
 }
