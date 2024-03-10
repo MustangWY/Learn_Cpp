@@ -16,7 +16,7 @@ int main(void){
                 cout<<five<<" five yuans "
                     <<two<<" two yuans "
                     <<n<<" one yuans"<<endl;
-                /* code */
+                /* code */                  //使用循环求解多项式思想  m = x1*v1+x2*v2+....+xn*vn;
             }
             
             

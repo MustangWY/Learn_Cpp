@@ -103,7 +103,7 @@ void CreateList_L_Reserved(LinkList &L, int n){       //时间复杂度：O(n)//
     L->next = NULL;
     for (int i = n; i >0 ; --i)
     {   
-        LinkList p = (LinkList)new LNode;       //创建头节点
+        LinkList p = (LinkList)new LNode;       //创建新节点
         std::cout<<"Please enter an element: \n";
         while (!(std::cin>>p->data))                //获取元素
         {   

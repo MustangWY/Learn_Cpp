@@ -7,7 +7,7 @@ char buffer[BUF];
 int main(void){
     double *pd1,*pd2;
     int i;
-    cout<<"Calling new ande placement new: "<<endl;
+    cout<<"Calling new and placement new: "<<endl;
     pd1 = new double[N];
     pd2 = new(buffer) double [N];
     for ( i = 0; i < N; i++)
