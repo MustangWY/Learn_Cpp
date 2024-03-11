@@ -187,7 +187,7 @@ int main(void){
     initMap();
     showMap();
     int winner = 0;
-    int count = 9;
+    int count = 0;
     while (!winner)
     {   
         player(1);
