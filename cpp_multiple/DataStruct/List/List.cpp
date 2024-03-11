@@ -109,3 +109,49 @@ void Sqlist::ShowList(){
     
 }
 
+int Sqlist::ListInsert_Sq(int i, ElemType e){
+    if (i<1||i>length)
+    {   
+        std::cout<<"Wrong position.\n";
+        return 0;
+        /* code */
+    }
+    ElemType *q = elem+i-1;
+    ElemType *p = elem+length-1;            //注意这里是 -1指向表尾元素，不减指向表尾后面一个元素
+    while (q<=p)
+    {   
+        *(p+1) = *p;
+        p--;
+
+        /* code */
+    }
+    *q = e;
+    length++;
+    return 1;
+}
+
+int Sqlist::ListDelete_Sq(int i, ElemType &e){
+    if (i<1||i>length)
+    {   
+        std::cout<<"Wrong position.\n";
+        return 0;
+        /* code */
+    }
+    ElemType *q = elem+i;
+    ElemType *p = elem+length-1;  
+    while(q <= p){
+        *(q - 1) = *q;
+        q++;
+    }
+    length--;
+    return 1;
+
+}
+
+int Sqlist::IsEqual(ElemType e1, ElemType e2){
+    if (e1 == e2)   
+        return 1;
+    else 
+        return 0;
+}
+
