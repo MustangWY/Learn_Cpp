@@ -31,7 +31,7 @@ int pop_back(Sqlist &l, ElemType &e);
 int pop_front(Sqlist &l, ElemType &e);
 int find(Sqlist &l, ElemType e);
 int Show_Length(Sqlist);
-
+int deleteVal(Sqlist &l, ElemType);
 
 
 int Show_Length(Sqlist l){
@@ -283,6 +283,30 @@ void ShowList(const Sqlist &L){
 
 }
 
+int deleteVal(Sqlist &l, ElemType e){
+    ElemType *p = l.elem;
+    ElemType a;
+    int i = 0;
+    for ( i; i < l.length; i++)
+    {   
+        if (l.elem[i] == e)
+        {   
+            break;
+            /* code */
+        }
+        
+        /* code */
+    }
+    if (i >= l.length){
+        std::cout<<"Value not exist.\n";
+        return 0;
+    }
+    else{
+        ListDelete_Sq(l,i+1,a);
+        return 1;
+    }
+}
+
 int main(void){
     using namespace std;
     int select = 1;
@@ -404,8 +428,14 @@ int main(void){
             }else 
                 cout<<"Delete successful\n";
             break;
+        case 10:
+            cout<<"Enter value: ";
+            cin>>num;
+            cin.get();
+            deleteVal(MyList,num);
+            
         default:
-            cout<<"Wrong input, enter again:";
+            cout<<"Wrong input, enter again:\n";
             break;
         }
         

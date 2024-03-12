@@ -74,6 +74,7 @@ int Sqlist::pop_back(ElemType &e){
     }
     *(elem+length-1) = e;
     length--;
+    return flag;
     
 }
 
@@ -103,6 +104,7 @@ void Sqlist::ShowList(){
     while (p<(elem+length))
     {   
         std::cout<<*p<<' ';
+        p++;
         /* code */
     }
     std::cout<<std::endl;
@@ -155,3 +157,48 @@ int Sqlist::IsEqual(ElemType e1, ElemType e2){
         return 0;
 }
 
+int Sqlist::find(ElemType e){
+    ElemType *p = elem;
+    for (int i = 0; i < length; i++)
+    {   
+        if (*p == e)
+        {   
+            return i+1;
+            /* code */
+        }
+        p++;
+        /* code */
+    }
+
+    return 0;
+    
+
+}
+
+int Sqlist::deleteVal(ElemType e){
+    ElemType *p = elem;
+    ElemType a;
+    int i = 0;
+    for ( i; i < length; i++)
+    {   
+        if (elem[i] == e)
+        {   
+            break;
+        }
+        /* code */
+    }
+    if (i >= length)
+    {   
+        std::cout<<"Value not exist.\n";
+        return 0;
+        /* code */
+    }else{
+        this->ListDelete_Sq(i+1,a);
+        return 1;
+    }
+    return 0;
+}
+
+int Sqlist::Show_Length(){
+    return this->length;
+}

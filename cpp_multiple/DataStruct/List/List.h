@@ -19,8 +19,8 @@ public:
     Sqlist();
     void MergeList_Sq(Sqlist L1, Sqlist L2, Sqlist &L3);
     int LocateElem_Sq(Sqlist L, ElemType e, int (*compare) (ElemType, ElemType));
-    int ListInsert_Sq(Sqlist &l, int i, ElemType e);
-    int ListDelete_Sq(Sqlist &L, int i, ElemType &e);
+    int ListInsert_Sq(int i, ElemType e);
+    int ListDelete_Sq(int i, ElemType &e);
     int IsEqual(ElemType, ElemType);
     void UnionList_Sq(Sqlist &La, Sqlist &&Lb);
     void ShowList();
@@ -28,9 +28,10 @@ public:
     int push_front(ElemType e);
     int pop_back(ElemType &e);
     int pop_front(ElemType &e);
-    int find(Sqlist &l, ElemType e);
-    int Show_Length(Sqlist);
-    ~Sqlist();
+    int find(ElemType e);
+    int Show_Length();
+    int deleteVal(ElemType e);
+    
 
 };
 
