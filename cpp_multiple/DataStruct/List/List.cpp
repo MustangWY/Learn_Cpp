@@ -1,6 +1,37 @@
 #include <iostream>
 #include "List.h"
 
+void Sqlist::sort(){
+    ElemType *p = elem;
+    if (length == 0)
+    {   
+        std::cout<<"Empty list.\n";
+        return;
+        /* code */
+    }
+    bool flag = false;
+    for (int i = 0; i < length-1; i++)
+    {   
+        for (int j = 0; j < length-1-i; j++)
+        {   
+            if (*p > *(p+1))
+            {   
+                flag = true;
+                ElemType temp = *p;
+                *p = *(p+1);
+                *(p+1) = temp;
+            }
+            p++; 
+        }
+        if (!flag)   
+           break;           //进行完一轮排序之后，判断本轮排序是否有元素交换。如果没有则列表已经有序，终止循环
+        else
+            flag = false;
+        p = elem; //注意进行完一轮排序以后，将指针重新指向列表头
+
+    }
+}
+
 Sqlist::Sqlist(){
     elem = new ElemType [LIST_INIT_SIZE];
     if (!elem)
@@ -201,4 +232,18 @@ int Sqlist::deleteVal(ElemType e){
 
 int Sqlist::Show_Length(){
     return this->length;
+}
+void Sqlist::reverse(){
+    if (length == 0||length ==1)
+    {   
+        return;
+        /* code */
+    }
+    ElemType *p = elem;
+    for (int i = 0; i < length/2; i++)      //不管是奇数还是偶数交换次数都等于长度除以二
+    {   
+        ElemType temp = *(p+i);
+        *(p+i) = *(p+length-1-i);                 
+        *(p+length-1-i) = temp;
+    }
 }

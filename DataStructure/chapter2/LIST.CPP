@@ -23,7 +23,7 @@ int InitList_SQ(Sqlist &L);
 int ListInsert_Sq(Sqlist &l, int i, ElemType e);
 int ListDelete_Sq(Sqlist &L, int i, ElemType &e);
 int IsEqual(ElemType, ElemType);
-void UnionList_Sq(Sqlist &La, Sqlist &&Lb);
+void UnionList_Sq(Sqlist &La, Sqlist &Lb);
 void ShowList(const Sqlist &L);
 int push_back(Sqlist& ,ElemType);
 int push_front(Sqlist &l, ElemType e);
@@ -32,7 +32,70 @@ int pop_front(Sqlist &l, ElemType &e);
 int find(Sqlist &l, ElemType e);
 int Show_Length(Sqlist);
 int deleteVal(Sqlist &l, ElemType);
+void sort(Sqlist &l);
+void reverse(Sqlist &L);
+void clear(Sqlist &l);
+void destroy(Sqlist &l);
 
+void destroy(Sqlist &l){                //清除表空间
+    delete [] l.elem;
+    l.elem = NULL;
+    l.listsize = 0;
+    l.length = 0;
+}
+
+void clear(Sqlist &l){              //清除表中的元素
+    l.length = 0;
+    std::cout<<"List cleared.\n";
+}
+
+void reverse(Sqlist &L){
+    if (L.length == 0||L.length ==1)
+    {   
+        return;
+        /* code */
+    }
+    
+    ElemType *p = L.elem;
+    for (int i = 0; i < L.length/2; i++)      //不管是奇数还是偶数交换次数都等于长度除以二
+    {   
+        ElemType temp = *(p+i);
+        *(p+i) = *(p+L.length-1-i);        //(p+i)相当于低位指针，（p+length-1-i)相当于高位指针         
+        *(p+L.length-1-i) = temp;           //边界条件可以简化为while(low<high)即可。。。。。
+    }
+    
+}
+
+void sort(Sqlist &l){       //冒泡排序
+    ElemType *p = l.elem;
+    if (l.length == 0)
+    {   
+        std::cout<<"Empty list.\n";
+        return;
+        /* code */
+    }
+    bool flag = false;
+    for (int i = 0; i < l.length-1; i++)
+    {   
+        for (int j = 0; j < l.length-1-i; j++)
+        {   
+            if (*p > *(p+1))
+            {   
+                flag = true;
+                ElemType temp = *p;
+                *p = *(p+1);
+                *(p+1) = temp;
+            }
+            p++; 
+        }
+        if (!flag)   
+           break;           //进行完一轮排序之后，判断本轮排序是否有元素交换。如果没有则列表已经有序，终止循环
+        else
+            flag = false;
+        p = l.elem; //注意进行完一轮排序以后，将指针重新指向列表头
+
+    }
+}
 
 int Show_Length(Sqlist l){
     return l.length;
@@ -79,6 +142,7 @@ int pop_front(Sqlist &l, ElemType &e){      //头部删除
 
 int push_back(Sqlist &l, ElemType e){           //尾插
     int flag = 0;
+    //可以单写一个分配函数
     if (l.length>=l.listsize)
     {   
         ElemType *newbase = new (l.elem)ElemType[LISTINCREMENT+l.listsize]; 
@@ -111,7 +175,7 @@ int push_front(Sqlist &l, ElemType e){      //头插
         }      
         l.elem = newbase;
         l.listsize+=LISTINCREMENT;
-        std::cout<<"List full, allocate new memory.\n ";
+        std::cout<<"List full, new memory allocated.\n ";
     }
     
     ElemType *p = l.elem+l.length-1;
@@ -144,7 +208,7 @@ int InitList_SQ(Sqlist &L){                         //定义顺序表后表成�
 }
 
 int ListInsert_Sq(Sqlist &l, int i, ElemType e){            //时间复杂度n/2
-    if ((i<1)||(i>l.length+1))
+    if ((i<1)||(i>l.length+1))                              //这里i指的是元素个数，从1开始算起
     {   
         return 0;
         /* code */
@@ -229,7 +293,7 @@ void MergeList_Sq(Sqlist L1, Sqlist L2, Sqlist &L3){
     {   
         if (L1.elem[i-1]>L2.elem[j-1])
         {   
-            ListInsert_Sq(L3,++k,L2.elem[j-1]);
+            ListInsert_Sq(L3,++k,L2.elem[j-1]);     //可以直接使用下标进行赋值
             j++;
             /* code */
         }else{
@@ -287,6 +351,7 @@ int deleteVal(Sqlist &l, ElemType e){
     ElemType *p = l.elem;
     ElemType a;
     int i = 0;
+    //可以使用find函数进行寻找
     for ( i; i < l.length; i++)
     {   
         if (l.elem[i] == e)
@@ -321,8 +386,7 @@ int main(void){
         cout<<"*[7]find              [8]show_length  *"<<endl;
         cout<<"*[9]delete_pos        [10]delete_val  *"<<endl;
         cout<<"*[11]sort             [12]reverse     *"<<endl;
-        cout<<"*[13]clear            [14]destroy     *"<<endl;
-        cout<<"*[0]quit                              *"<<endl;
+        cout<<"*[13]clear            [0]quit         *"<<endl;
         cout<<"***************************************"<<endl;
         /* code */
         cout<<"Please select:";
@@ -344,8 +408,8 @@ int main(void){
             break;
         case 1:
             
-            cout<<"Please enter a number(-1 to stop): ";
-            while (cin>>num,num != -1 ) //逗号表达式，看逗号之后的表达式之后的真假
+            cout<<"Please enter a number(q to stop): ";
+            while (cin>>num) //逗号表达式，看逗号之后的表达式之后的真假
             {   
                 push_back(MyList,num);
                 cin.get();
@@ -353,8 +417,8 @@ int main(void){
             }  
             break;
         case 2:
-            cout<<"Please enter a number(-1 to stop): ";
-            while (cin>>num,num != -1 ) //逗号表达式，看逗号之后的表达式之后的真假
+            cout<<"Please enter a number(q to stop): ";
+            while (cin>>num) //逗号表达式，看逗号之后的表达式之后的真假
             {   
                 push_front(MyList,num);
                 cin.get();
@@ -433,13 +497,24 @@ int main(void){
             cin>>num;
             cin.get();
             deleteVal(MyList,num);
-            
+        case 11:
+            sort(MyList);
+            break;
+        case 12:
+            reverse(MyList);
+            break;
+        case 13:
+            clear(MyList);
+            break;
+        //case 14:
+           // destroy(MyList);
+            //break;
         default:
             cout<<"Wrong input, enter again:\n";
             break;
         }
         
     }
-    
+    destroy(MyList);
     return 0;
 }

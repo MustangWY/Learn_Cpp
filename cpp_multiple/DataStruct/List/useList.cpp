@@ -125,7 +125,9 @@ int main(void){
             cin>>num;
             cin.get();
             MyList.deleteVal(num);
-            
+        case 11:
+            MyList.sort();
+            break;
         default:
             cout<<"Wrong input, enter again:\n";
             break;

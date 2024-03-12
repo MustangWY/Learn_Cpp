@@ -22,7 +22,7 @@ public:
     int ListInsert_Sq(int i, ElemType e);
     int ListDelete_Sq(int i, ElemType &e);
     int IsEqual(ElemType, ElemType);
-    void UnionList_Sq(Sqlist &La, Sqlist &&Lb);
+    void UnionList_Sq(Sqlist &&Lb);
     void ShowList();
     int push_back(ElemType);
     int push_front(ElemType e);
@@ -31,7 +31,8 @@ public:
     int find(ElemType e);
     int Show_Length();
     int deleteVal(ElemType e);
-    
+    void sort();
+    void reverse();
 
 };
 
