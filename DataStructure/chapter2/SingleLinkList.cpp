@@ -36,12 +36,13 @@ void MergList_L(LinkList &La,LinkList &Lb,LinkList &Lc);
 
 
 LinkList InitLinkList(){
-    LNode* L = (LinkList)new(LNode);
-    if (L == NULL)
+    LNode* L = (LinkList)new(LNode);        //对于结构体指针，在对其进行声明之后，会在栈中开辟空间用于存放指针本身，此时指针指向位置随机，成为悬浮指针。  
+    if (L == NULL)                          //而对于结构体程序并未分配空间。这里就要使用new来为结构体分配空间，并令指针l指向开辟出来的地址
     {   
         exit(0);
         /* code */
     }
+    L->data = 0;
     L->next = NULL;
     return L;
 }
@@ -98,12 +99,16 @@ bool ListDelete_L(LinkList &L, int i, ElemType &e){
 
 
 
-void CreateList_L_Reserved(LinkList &L, int n){       //时间复杂度：O(n)//逆序创建
-    L = (LinkList)new LNode;
-    L->next = NULL;
-    for (int i = n; i >0 ; --i)
-    {   
-        LinkList p = (LinkList)new LNode;       //创建新节点
+void CreateList_L_Reserved(LinkList &L, int n){       //时间复杂度：O(n)//头插，逆序创建  
+    for (int i = n; i >0 ; --i)                         //对于函数参数来说，当函数要修改的是指向链表的指针时（这里创建列表涉及到更改头指针的值），要将Linklist类型按引用传递，即使它本身就是一个指针，这样才能对指针进行修改。
+    {                                                   //而当函数要修改的是链表当中的内容或者对内容进行查看时，可以只传入LinkList指针，因为这并不涉及改变指针本身的值。
+        LinkList p = (LinkList)new LNode;
+        if (!p)
+        {   
+            exit(-1);
+            /* code */
+        }
+               //创建新节点
         std::cout<<"Please enter an element: \n";
         while (!(std::cin>>p->data))                //获取元素
         {   
@@ -124,9 +129,7 @@ void CreateList_L_Reserved(LinkList &L, int n){       //时间复杂度：O(n)//
 
 }
 
-void CreateList_L_Sequential(LinkList &L, int n){               //顺序创建//时间复杂度：O(n)
-    L =(LinkList) new LNode;
-    L->next = NULL;
+void CreateList_L_Sequential(LinkList &L, int n){               //尾插，顺序创建//时间复杂度：O(n)
     LNode* q = L;
     for (int i = 1; i <= n; i++)
     {   
@@ -195,6 +198,7 @@ int main(void){
     using namespace std;
     LinkList l = InitLinkList();
     CreateList_L_Reserved(l,3);
+    //cout<<l->data;
     cout<<"l1:"<<(l->next)->data<<endl;
     cout<<"l2:"<<((l->next)->next)->data<<endl;
     LinkList a;
