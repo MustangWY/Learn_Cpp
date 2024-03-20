@@ -1,0 +1,81 @@
+  shel命令中$加变量名表示变量
+  grep命令,从文件中检索给出的内容
+  grep 内容 文件路径
+  ls命令支持在命令行中定义过滤器,过滤器就是一个字符串,可以做文本匹配,作为命令行参数放在选项之后使用
+  ?代表单个字符
+  *代表多个字符
+
+
+一 shell脚本中最有用的特性之一:从命令的输出中提取信息并赋值给变量:
+    1.反引号字符串
+    var=`date`
+    path=`pwd`
+    2.dollar符加小括号
+    var=$(date)
+
+
+二 数学计算:
+    shell脚本中shell不会直接对代码中的表达式进行计算
+    1.要进行数学计算,需要用到命令expr,使用$()将expr命令执行并赋值给变量:
+    var=$(expr 2 + 5)
+    通过$()讲命令expr命令执行,得到2 + 5的计算结果,再存到变量var中
+    在计算乘法时,需要使用\*进行转义
+    2. bash提供更好的数学计算方法,使用$[]进行计算,可以省略exper,同时,乘法不需要进行转义.
+
+  
+三 条件分支
+    之前写的所有代码中,命令都是顺序执行的.
+    最基本的条件分支语法:
+    if command
+    then
+        执行语句
+    fi
+
+    或者
+    if command;then
+    2    执行语句
+    fi
+
+    if关键字后跟一个命令,该命令会执行,如果命令执行成功,则then和fi之间的语句会执行;反之则不会执行
+    if command
+        then
+        执行语句1
+    else
+        执行语句2
+    fi
+    相当于if else语句
+
+if语句可以进行嵌套
+    变体:
+     if command
+     then
+        语句块1
+     elif command
+        语句块2
+     else
+        语句块3
+     fi
+test命令:
+    格式:
+    test condition
+    如果condition成立,则test退出返回状态码0,命令执行
+    成功,如果condition不成立,则test命令执行失败
+
+    作用:1.测试某个变量是否有内容
+         2.可以比较变量的值
+         3.可以测文件的类型
+
+    shell提供另一种条件测试方法:
+        if [ condition ]
+        then commands
+        fi
+        注意中括号内的必须有空格
+        数值比较:
+        n1 -eq n2   n1 == n2
+        n1 -ge n2   n1 >= n2
+        n1 -gt n2   n1 > n2
+        n1 -le n2   n1 <= n2
+        n1 -lt n2   n1 < n2
+        n1 -lt n2   n1 < n2
+        n1 -ne n2 ->  n1 != n2
+        n1 -ne n2 ->  n1 != n2

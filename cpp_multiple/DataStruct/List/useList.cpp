@@ -1,5 +1,6 @@
 #include"list.h"
 #include<iostream>
+
 int main(void){
     using namespace std;
     Sqlist MyList;
@@ -128,10 +129,17 @@ int main(void){
         case 11:
             MyList.sort();
             break;
+        case 12:
+            MyList.reverse();
+            break;
+        case 13:
+            MyList.clear();
+            
         default:
             cout<<"Wrong input, enter again:\n";
             break;
         }
+        
         
     }
     return 0;

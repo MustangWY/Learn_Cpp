@@ -1,0 +1,9 @@
+ while (!(cin >> num))
+        {
+            cin.clear();
+            while (cin.get() != '\n')
+                continue;
+            cout << "Please enter a number:";
+
+            
+        }

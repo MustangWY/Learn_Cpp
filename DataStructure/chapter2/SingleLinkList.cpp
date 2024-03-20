@@ -11,6 +11,11 @@ typedef struct LNode
     
 }LNode, *LinkList;
 
+typedef struct List{
+    LinkList First;
+    LinkList Last;
+    size_t size;                //unsigned int类型，长度根据系统位数而定
+}List;
 
 
 /*  c++表示法：
@@ -31,12 +36,24 @@ void CreateList_L_Reserved(LinkList &L, int n);
 void CreateList_L_Sequential(LinkList &L, int n);
 void ShowLinkList(const LinkList &l);
 void MergList_L(LinkList &La,LinkList &Lb,LinkList &Lc);
+void InitList(List& );
 
 
+void InitList(List &MyList){
+    MyList.First = MyList.Last = (LinkList)new LNode;       //void* malloc(size_t size) 返回值是void指针，因此需要使用LinkList转换
+    if (MyList.First == NULL)
+    {   
+        exit(0);
+        /* code */
+    }
+    MyList.First->next = NULL;
+    MyList.size = 0;
+    
+}
 
 
 LinkList InitLinkList(){
-    LNode* L = (LinkList)new(LNode);        //对于结构体指针，在对其进行声明之后，会在栈中开辟空间用于存放指针本身，此时指针指向位置随机，成为悬浮指针。  
+    LNode* L = (LinkList)new LNode;        //对于结构体指针，在对其进行声明之后，会在栈中开辟空间用于存放指针本身，此时指针指向位置随机，成为悬浮指针。  
     if (L == NULL)                          //而对于结构体程序并未分配空间。这里就要使用new来为结构体分配空间，并令指针l指向开辟出来的地址
     {   
         exit(0);
@@ -106,7 +123,6 @@ void CreateList_L_Reserved(LinkList &L, int n){       //时间复杂度：O(n)//
         if (!p)
         {   
             exit(-1);
-            /* code */
         }
                //创建新节点
         std::cout<<"Please enter an element: \n";
@@ -115,18 +131,12 @@ void CreateList_L_Reserved(LinkList &L, int n){       //时间复杂度：O(n)//
             std::cin.clear();
             while (std::cin.get() != '\n')
                 continue;
-            std::cout<<"Please enter a number: \n";
-            
+            std::cout<<"Please enter a number: \n";   
         }
         std::cin.get();     
         p->next = L->next;      //插入到表头 逆序
         L->next = p;                
-        /* code */
     }
-    
-
-
-
 }
 
 void CreateList_L_Sequential(LinkList &L, int n){               //尾插，顺序创建//时间复杂度：O(n)
@@ -196,14 +206,8 @@ void MergList_L(LinkList &La,LinkList &Lb,LinkList &Lc){
 
 int main(void){
     using namespace std;
-    LinkList l = InitLinkList();
-    CreateList_L_Reserved(l,3);
-    //cout<<l->data;
-    cout<<"l1:"<<(l->next)->data<<endl;
-    cout<<"l2:"<<((l->next)->next)->data<<endl;
-    LinkList a;
-    CreateList_L_Sequential(a,3);
-    ShowLinkList(a);
+    List MyList;
+    
 
     return 0;
 }

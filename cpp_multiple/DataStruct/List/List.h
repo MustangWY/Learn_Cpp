@@ -33,6 +33,9 @@ public:
     int deleteVal(ElemType e);
     void sort();
     void reverse();
+    void clear();
+    void destroy();
+    ~Sqlist();
 
 };
 

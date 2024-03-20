@@ -1,6 +1,30 @@
 #include <iostream>
 #include "List.h"
 
+
+
+Sqlist::~Sqlist(){
+    delete [] elem;
+    length = 0;
+    elem = NULL;
+    length = 0;
+    listsize = 0;
+}
+
+
+void Sqlist::clear(){
+    length = 0;
+    std::cout<<"List cleared.\n";
+}
+
+void Sqlist::destroy(){
+    delete [] elem;
+    length = 0;
+    elem = NULL;
+    length = 0;
+    listsize = 0;
+}
+
 void Sqlist::sort(){
     ElemType *p = elem;
     if (length == 0)
