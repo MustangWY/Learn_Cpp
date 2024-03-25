@@ -413,18 +413,21 @@ int main(void)
             while (cin >> num) // 逗号表达式，看逗号之后的表达式之后的真假
             {
                 push_back(MyList, num);
-                cin.get();
                 /* code */
             }
+            cin.clear();                    //cin在接收到不相容的数据类型时，cin对象中的一个错误标记被设置，对cin方法的调用将返回false
+            cin.get();
+            
             break;
         case 2:
             cout << "Please enter a number(q to stop): ";
             while (cin >> num) // 逗号表达式，看逗号之后的表达式之后的真假
             {
                 push_front(MyList, num);
-                cin.get();
                 /* code */
             }
+            cin.clear();
+            cin.get();
             break;
         case 3:
             ShowList(MyList);
