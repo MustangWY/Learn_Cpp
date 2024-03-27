@@ -454,7 +454,6 @@ int main(void)
             }
             cout << num << " Poped from the front\n";
             break;
-            break;
         case 6:
             cout << "Please enter the number: ";
             (cin >> num).get();

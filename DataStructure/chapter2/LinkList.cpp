@@ -15,7 +15,7 @@ typedef struct LNode
     
 }LNode, *LinkList;
 
-
+typedef LNode* It;
 
 /*  c++表示法：
 typedef struct LNode
@@ -26,7 +26,8 @@ typedef struct LNode
 } *LinkList;
 
 */
-
+It begin(LinkList L);
+It end(LinkList L);
 int find_val(LinkList L, ElemType e);
 bool ListInsert_L(LinkList &L, int i, ElemType);
 bool ListDelete_L(LinkList &L, int i, ElemType &e);
@@ -48,7 +49,28 @@ LinkList find(LinkList L, ElemType e);
 void sort(LinkList &L);
 void destroy(LinkList &L);
 void clear(LinkList &L);
+LinkList getNode(ElemType &e);
+void insert(LinkList &L, It pos, ElemType &e);
 
+
+
+//类似迭代器的东西，返回链表头节点和尾部节点的下一个节点（即NULL）
+It begin(LinkList L){
+    return L->next;
+}
+
+It end(LinkList L){
+    LinkList p = L;
+    while (p)   
+        p = p->next; 
+    return p;
+}
+LinkList getNode(ElemType &e){
+    LinkList p = new LNode;
+    p->data = e;
+    p->next = NULL;
+    return p;
+}
 
 void clear(LinkList &L){
     LinkList p = L->next;
@@ -224,6 +246,16 @@ void insert_pos(LinkList &L, ElemType &e, int pos){
 }
 
 
+//使用迭代器和getNode函数进行插入：
+void insert(LinkList &L, It pos, ElemType &e){
+    LinkList s = getNode(e);
+    LinkList p = L;
+    while (p->next != pos)
+        p = p->next;
+    s->next = p->next;
+    p->next = s;
+}
+
 ElemType Input(){
     ElemType e;
     std::cout<<"Please enter element:";
@@ -273,22 +305,29 @@ void pop_back(LinkList &L, ElemType &e){            //使用三个指针沿着�
 
 
 void push_front(LinkList &L, ElemType e){
-    LinkList p = new LNode;
+   /* LinkList p = new LNode;
     p->data = e;
     p->next = L->next;
     L->next = p;
+    */
+    //使用insert函数和迭代器进行头插
+    insert(L,begin(L),e);
 }
 
 
 
 void push_back(LinkList &L, ElemType e){
-    LinkList p = new LNode;
+   /* LinkList p = new LNode;
     p->data = e;
     LinkList q = L;
     while (q->next)             //没必要对q进行判定，对q的next指针进行判定即可。
         q = q->next;
     p->next = NULL;
     q->next = p;
+    */
+   //使用insert函数和迭代器进行尾插
+   insert(L,end(L),e);
+
 }
 
 
@@ -460,7 +499,7 @@ int main(void){
         cout << "*[7]GetElem           [8]show_length  *" << endl;
         cout << "*[9]delete_val        [10]delete_pos  *" << endl;
         cout << "*[11]reverse          [12]sort        *" << endl;
-        cout << "*[13]clear          [14]find        *" << endl;
+        cout << "*[13]clear            [14]find        *" << endl;
         cout << "*[0]]quit                             *" << endl;
         cout << "***************************************" << endl;
         cout<<"Please enter your choice:";
@@ -480,10 +519,8 @@ int main(void){
             case 1:
             cout<<"Please enter elements(q to quit):";
                 while (cin>>elem)
-                {   
-
+                {
                     push_back(MyList, elem);\
-                    cin.get();
                     /* code */
                 }
                 cin.clear();
@@ -494,7 +531,6 @@ int main(void){
                 while (cin>>elem)
                 {   
                     push_front(MyList, elem);
-                    cin.get();
                     /* code */
                 }
                 cin.clear();
