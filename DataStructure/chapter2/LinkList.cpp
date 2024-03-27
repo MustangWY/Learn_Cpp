@@ -1,6 +1,10 @@
 #include<iostream>
 #include<cstdlib>
 
+/*
+    单链表的实现
+*/
+
 typedef int ElemType;
 /*c表示法：c中使用结构体定义变量时要在结构体名称前面加struct，这里使用typedef给结构体取别名来省略struct。同时LinkList类指针即为指向单链表的头指针*/
 typedef struct LNode
@@ -23,8 +27,7 @@ typedef struct LNode
 
 */
 
-
-bool GetElem(LinkList L, int i, ElemType &e);
+int find_val(LinkList L, ElemType e);
 bool ListInsert_L(LinkList &L, int i, ElemType);
 bool ListDelete_L(LinkList &L, int i, ElemType &e);
 void CreateList_L_Reserved(LinkList &L, int n);
@@ -36,16 +39,113 @@ void push_front(LinkList &L, ElemType e);
 void pop_back(LinkList &L, ElemType &e);
 void pop_front(LinkList &L, ElemType &);
 void insert_pos(LinkList &L, ElemType &, int pos);
-void find(LinkList &L, int i, ElemType &e);
+void GetElem(LinkList &L, int i, ElemType &key);
 int show_length(LinkList L);
-void delete_val(LinkList &L, ElemType &e, ElemType val);
+bool delete_val(LinkList &L, ElemType &e, ElemType val);
+void reverse(LinkList &L);
 ElemType Input();
+LinkList find(LinkList L, ElemType e);
+void sort(LinkList &L);
+void destroy(LinkList &L);
+void clear(LinkList &L);
+
+
+void clear(LinkList &L){
+    LinkList p = L->next;
+    LinkList q;
+    while (p)
+    {   
+      L->next = p->next;
+      q = p;
+      p = p->next;
+      delete q;
+
+    }
+}
+
+
+
+void destroy(LinkList &L){
+    LinkList p = L;
+    while (L)
+    {   
+        L = L->next;
+        delete p;
+        p = L;
+        /* code */
+    }
+}
+
+
+void sort(LinkList &L){                 //思路：将链表从第一个元素截断，分成两部分链表，分别拿第二个链表元素与第一个链表中的元素进行比较，按顺序插入第一个链表
+    LinkList p = L->next->next, s;
+    L->next->next = NULL;
+    LinkList q = L;
+    while (p)
+    {
+          while ((q->next)&&(p->data)>(q->next->data))
+        {    
+            q = q->next;
+        }
+        s = p;
+        p = p->next;
+        s->next = q->next;
+        q->next = s;
+        q = L;                  //注意将q置头节点，否则将插到第一个节点后面
+    }  
+}
+
+
+void reverse(LinkList &L){
+    LinkList s,p = L->next->next;
+    L->next->next = NULL;
+    while (p)
+    {   
+        s = p;
+        p = p->next;
+        s->next = L->next;
+        L->next = s;
+        /* code */
+    }
+}
+
+LinkList find(LinkList L, ElemType e){
+    LinkList p = L->next;
+    while (p && p->data != e)   
+        p = p->next;
+    return p;
+}
+//按值查找返回元素指针
 
 
 
 
 
-void delete_val(LinkList &L, ElemType &e, ElemType val){
+int find_val(LinkList L, ElemType e){
+    LinkList p = L->next;
+    int i = 1,flag = 0;
+    while (p)
+    {   
+        if (p->data == e){
+            flag = 1;
+            break;
+        }
+        p = p->next;
+        i++;
+    }
+    if (!flag)
+    {   
+        std::cout<<"No element found.\n";
+        return 0;
+    }
+    
+    return i;
+}
+
+
+
+
+bool delete_val(LinkList &L, ElemType &e, ElemType val){        //思路2：将当前节点的数据换为下一个节点的数据，然后删除下一个节点
     LinkList p = L,q;
     while (p)
     {   
@@ -58,16 +158,17 @@ void delete_val(LinkList &L, ElemType &e, ElemType val){
     if (!p)
     {   
         std::cout<<"Error, no value.\n";
-        return;
-        /* code */
+        return false;
+       
     }
     e = p->data;
     q->next = p->next;
     delete p;
+    return true;
 }
 
 
-void find(LinkList &L, int i, ElemType &e){
+void GetElem(LinkList &L, int i, ElemType &key){
     LinkList p = L;
     int j = 0;
     while (p && j < i)
@@ -83,14 +184,10 @@ void find(LinkList &L, int i, ElemType &e){
         /* code */
     }
 
-    e = p->data;
+    key = p->data;
     
     
 }
-
-
-
-
 
 int show_length(LinkList L){
     int len = 0;
@@ -188,7 +285,7 @@ void push_back(LinkList &L, ElemType e){
     LinkList p = new LNode;
     p->data = e;
     LinkList q = L;
-    while (q->next)
+    while (q->next)             //没必要对q进行判定，对q的next指针进行判定即可。
         q = q->next;
     p->next = NULL;
     q->next = p;
@@ -207,21 +304,21 @@ LinkList InitLinkList(){
     return L;
 }
 
-bool GetElem(LinkList L, int i, ElemType &e){               //寻找单链表中的第i个元素
+/*bool GetElem(LinkList L, int i, ElemType &e){               //寻找单链表中的第i个元素
     LinkList p = L->next;
     int j = 1;                  //初始化，此时p指向第一个节点，j为计数器，为指向第几个节点
-    while (p&&j<i)
+    while (p&&j<i)              //这里注意，在链表中对值也好位置也好进行判定或者循环的时候，一定要把对于指针是否为空的判断放在前面，因为一旦放在后面，当指针走到链表尾，前面的对值判定由于表尾指针域为空无法得到值，就会导致崩溃。
     {   
         p = p->next;            //顺着指针往下查找，直到找到第i个节点或者遇到空指针（到达链表末尾）
         j++;
-        /* code */
+       
     }
     if (!p||j>i)
     return false;
     e = p->data;
     return true;
 }
-
+*/
 bool ListInsert_L(LinkList &L, int i, ElemType e){
     LinkList p = L;
     int j = 0;
@@ -250,7 +347,7 @@ bool ListDelete_L(LinkList &L, int i, ElemType &e){
         j++;
     }
     if (!(p->next)||j>i-1) return false;
-    e = p->data;
+    e = p->next->data;
     LinkList q = p->next;
     p->next = q->next;
     delete q;
@@ -307,6 +404,8 @@ void CreateList_L_Sequential(LinkList &L, int n){               //尾插，顺�
 }
 
 void ShowLinkList(const LinkList &l){
+   
+    
     LinkList p = l->next;
     int i = 1;
     while (p)
@@ -358,10 +457,11 @@ int main(void){
         cout << "*[1]push_back         [2]push_front   *" << endl;
         cout << "*[3]show_list         [4]pop_back     *" << endl;
         cout << "*[5]pop_front         [6]insert_pos   *" << endl;
-        cout << "*[7]find              [8]show_length  *" << endl;
+        cout << "*[7]GetElem           [8]show_length  *" << endl;
         cout << "*[9]delete_val        [10]delete_pos  *" << endl;
         cout << "*[11]reverse          [12]sort        *" << endl;
-        cout << "*[13]destroy          [0]quit         *" << endl;
+        cout << "*[13]clear          [14]find        *" << endl;
+        cout << "*[0]]quit                             *" << endl;
         cout << "***************************************" << endl;
         cout<<"Please enter your choice:";
         while (!(cin>>select))
@@ -422,7 +522,7 @@ int main(void){
                 cout<<"Please enter position: ";
                 cin>>pos;
                 cin.get();
-                find(MyList, pos, elem);
+                GetElem(MyList, pos, elem);
                 cout<<"Element #"<<pos<<" is "<<elem<<endl;
                 break;
             case 8:
@@ -432,22 +532,39 @@ int main(void){
             case 9:
                 cout<<"Enter value: ";
                 cin>>num;
-                delete_val(MyList,elem,num);
-                cout<<elem<<" deleted from the list.\n";
+                if(delete_val(MyList,elem,num))
+                    cout<<elem<<" deleted from the list.\n";
                 break;
             case 10:
                 cout<<"Enter pos: ";
                 cin>>pos;
-                ListDelete_L(MyList,pos,elem);
+                if(ListDelete_L(MyList,pos,elem))
+                    cout<<elem<<" deleted from the list.\n";
+                else
+                    cout<<"Out of range.\n";
+                break;
+            case 11:
+                reverse(MyList);
+                break;
+            case 12:
+                sort(MyList);
+                break;
+            case 13:
+                clear(MyList);
+                break;
+            case 14:
+                elem = Input();
+                pos = find_val(MyList,elem);
+                if (pos)
+                {
+                    cout<<elem<<" is in the "<<pos<<" position.\n ";
+                }
                 break;
             default:
                 cout<<"Wrong input, enter again.\n";
-                break;
-            
+                break;       
         }
     }
-
-    
-
+    destroy(MyList);
     return 0;
 }

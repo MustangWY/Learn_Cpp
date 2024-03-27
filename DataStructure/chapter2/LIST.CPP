@@ -34,6 +34,8 @@ void reverse(Sqlist &L);
 void clear(Sqlist &l);
 void destroy(Sqlist &l);
 
+
+
 void destroy(Sqlist &l)
 { // 清除表空间
     delete[] l.elem;
