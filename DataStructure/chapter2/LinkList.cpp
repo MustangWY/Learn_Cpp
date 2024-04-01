@@ -75,9 +75,9 @@ LinkList getNode(ElemType &e){
 void clear(LinkList &L){
     LinkList p = L->next;
     LinkList q;
+    L->next = NULL;
     while (p)
     {   
-      L->next = p->next;
       q = p;
       p = p->next;
       delete q;

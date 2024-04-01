@@ -1,6 +1,10 @@
 #include <iostream>
-#define MAXSIZE 20   
+#define MAXSIZE 10   
 //#define ElemType int
+/*
+*   这里可以将结构中的cur当成指针去思考，
+*   插入弹出等操作可以直接套用链表操作，只不过将链表中的指针替换为cur就好。
+*/
 typedef int ElemType;
 
 typedef struct 
@@ -15,9 +19,240 @@ int Malloc_SL(SLinkList &space);
 void push_front(SLinkList &space, ElemType e);
 void ShowSlist(const SLinkList &space);
 void Free_SL(SLinkList &space, int k);
-bool DeleteList_SL(SLinkList &space, int k);
 void push_back(SLinkList &space, ElemType e);
+void pop_back( SLinkList &space, ElemType &e);
+void pop_front( SLinkList &space, ElemType &e);
+void insert_pos(SLinkList &space, ElemType e, int pos);
+void GetElem(SLinkList &space, ElemType &e, int pos);
+int show_length(SLinkList const &space);
+void delete_val(SLinkList &space, ElemType e);
+void delete_pos(SLinkList &space, ElemType &e,int pos);
+void sort(SLinkList &space);
+void reverse(SLinkList &space);
+void clear(SLinkList &space);
+int find_val(SLinkList space, ElemType e);
 
+
+
+int find_val(SLinkList space, ElemType e){
+    int plist = space[0].cur;
+    int pos = 1;
+    while (space[plist].cur != -1 && space[plist].data != e)
+    {   
+        plist = space[plist].cur;
+        pos++;
+        /* code */
+    }
+    if (space[plist].cur == -1 && space[plist].data != e )
+    {   
+        std::cout<<"No element.\n";
+        return 0;
+        /* code */
+    }
+    return pos;
+    
+
+
+
+
+}
+
+void clear(SLinkList &space){
+    int plist = space[0].cur;
+    int temp = 0;
+    space[0].cur = -1;
+    while (plist != -1)
+    {   
+        temp = plist;
+        plist = space[plist].cur;   //要先将指针往下移再释放空间！！！！！！！！！！！同时要使用一个temp放置当前节点位置，不然就删下一个节点了！！！！！！！！！！！！
+        Free_SL(space, temp);
+        /* code */
+    }
+}
+
+
+
+void sort(SLinkList &space){            //注意第二个循环判断条件，如果直接判断游标是否等于-1则最后list1一定等于-1，会造成出界
+                                        //同样单链表中检查的也是也是q->next，否则会有segmentation fault、
+
+    int list1 = 0;
+    int list2 = space[space[0].cur].cur;
+    space[space[0].cur].cur = -1;
+    int temp;
+    while (list2 != -1)
+    {   
+        while (space[list1].cur != -1 && space[list2].data>space[space[list1].cur].data)
+        {
+            list1 = space[list1].cur;
+            /* code */
+        }
+        int temp = list2;
+        list2 = space[list2].cur;
+        space[temp].cur = space[list1].cur;
+        space[list1].cur = temp;
+        list1 = 0;
+        
+        /* code */
+        
+    }
+    
+
+}
+
+
+
+void reverse(SLinkList &space){
+    int list1 = 0;
+    int list2 = space[space[0].cur].cur;
+    space[space[list1].cur].cur = -1;
+    int temp = 0;
+    while (list2 != -1) 
+    {   
+        temp = list2;
+        list2 = space[list2].cur;
+        space[temp].cur = space[list1].cur;
+        space[list1].cur = temp;
+
+    }
+    
+}
+
+
+void delete_pos(SLinkList &space, ElemType &e,int pos){
+    int i = 0;
+    int j = 0,count = 0;
+    while(space[i].cur != -1 && count < pos){
+        j = i;
+        i = space[i].cur;
+        count++;
+    }
+    if(space[i].cur == -1 && count < pos){
+        std::cout << "Out of range.\n";
+        return;
+    }
+    e =space[i].data;
+    space[j].cur = space[i].cur;
+    Free_SL(space, i);
+
+}
+
+
+
+void delete_val(SLinkList &space, ElemType e){
+    int i = space[0].cur;
+    int j = 0;                  //i作为探针指向要删除的元素，j作为前驱指向前一个元素
+    while (space[i].cur != -1 && space[i].data != e)
+    {   
+        j = i;
+        i = space[i].cur;
+        /* code */
+    }
+    if (space[i].cur == -1 && space[i].data != e)
+    {   
+        std::cout<<"No value.\n";
+        return;
+        /* code */
+    }
+    space[j].cur = space[i].cur;
+    Free_SL(space,i);
+
+}
+
+
+
+int show_length(SLinkList const &space){
+    int i = space[0].cur;
+    int length = 0;
+    while (i != -1)
+    {   
+        i = space[i].cur;
+        length++;
+        /* code */
+    }
+    return length;
+}
+
+
+
+void GetElem(SLinkList &space, ElemType &e, int pos){
+    int i = 0, count = 0;
+    while (space[i].cur != -1 && count < pos)
+    {   
+        i = space[i].cur;
+        count++;
+    }
+    if (space[i].cur == -1 && count < pos)
+    {   
+        std::cout<<"Out of range.\n";
+        return ;
+    }
+    e = space[i].data;
+    std::cout<<"Element #"<<pos<<" is "<<e<<std::endl;
+}
+
+
+
+void insert_pos(SLinkList &space, ElemType e, int pos){
+    int i = 0, count = 0;
+    int j = Malloc_SL(space);
+    if (!j)
+    {   
+        std::cout<<"Allocate failed.\n";
+        return;
+        /* code */
+    }
+    
+    while (space[i].cur != -1 && count<pos-1)
+    {   
+        i = space[i].cur;
+        count++;
+        /* code */
+    }
+    if (space[i].cur == -1 && count < pos)
+    {   
+        std::cout<<"Out of range.\n";
+        return;
+        /* code */
+    }
+    
+    space[j].data = e;
+    space[j].cur = space[i].cur;
+    space[i].cur = j;
+    
+
+}
+
+void pop_front( SLinkList &space, ElemType &e){
+    if (space[0].cur == -1)
+    {   
+        std::cout<<"No element\n";
+        return;
+        /* code */
+    }
+    int i = space[0].cur;
+    e = space[i].data;
+    space[0].cur = space[i].cur;
+    Free_SL(space, i);
+}
+
+void pop_back( SLinkList &space, ElemType &e){
+    int i = space[0].cur;
+    if (i == -1)
+    {
+        std::cout<<"No elemet.\n";
+        return;
+    }
+    
+    while (space[space[i].cur].cur != -1)
+    {   
+
+        i = space[i].cur;
+        /* code */
+    }
+    e = space[space[i].cur].data;
+    Free_SL(space, space[i].cur);
+    space[i].cur = -1;
+}
 
 
 void push_back(SLinkList &space, ElemType e){
@@ -40,8 +275,6 @@ void push_back(SLinkList &space, ElemType e){
     
     
 }
-
-
 
 void initSpace_SL(SLinkList &space){
     
@@ -101,30 +334,15 @@ void Free_SL(SLinkList &space, int k){          //注意这里是释放空间而
 }
 
 
-bool DeleteList_SL(SLinkList &space, int k,ElemType &e){       
-    int j = 0;
-    int cur = space[0].cur;
-    while ((j<k-1)&&(cur!=-1))
-    {   
-        cur = space[cur].cur;
-        j++;
-        /* code */
-    }
-    if (cur == -1)
-    return false;
-    component q =space[space[cur].cur];
-    e = q.data;
-    Free_SL(space,space[cur].cur);
-    space[cur].cur = q.cur;
-    return true;
-    
-}
+
 
 int main(void){
     using namespace std;
     SLinkList sp;
     ElemType elem;
+    int pos;
     initSpace_SL(sp);
+    int length = 0;
      int select = -1;
     while (select)
     {   
@@ -135,7 +353,7 @@ int main(void){
         cout << "*[7]GetElem           [8]show_length  *" << endl;
         cout << "*[9]delete_val        [10]delete_pos  *" << endl;
         cout << "*[11]reverse          [12]sort        *" << endl;
-        cout << "*[13]clear          [14]find        *" << endl;
+        cout << "*[13]clear            [14]find        *" << endl;
         cout << "*[0]]quit                             *" << endl;
         cout << "***************************************" << endl;
         cout<<"Please enter your choice:";
@@ -154,7 +372,7 @@ int main(void){
                 cout<<"Pleae enter elements(q to quit): ";
                 while (cin>>elem)
                 {   
-                    push_front(sp,elem);
+                    push_back(sp,elem);
                 }
                 cin.clear();
                 cin.get();
@@ -164,7 +382,7 @@ int main(void){
                 while (cin>>elem)
                 {   
                     
-                    push_back(sp,elem);
+                    push_front(sp,elem);
                 }
                 cin.clear();
                 cin.get();
@@ -172,6 +390,60 @@ int main(void){
             case 3: 
                 ShowSlist(sp);
                 break;
+            case 4:
+                pop_back(sp,elem);
+                cout<<elem<<" Poped from the end of the list.\n";
+                break;
+            case 5:
+                pop_front(sp,elem);
+                cout<<elem<<" Pop from the front of the list.\n";
+                break;
+            case 6:
+                cout<<"Enter position: ";
+                cin>>pos;
+                cout<<"Enter element: ";
+                cin>>elem;
+                insert_pos(sp, elem, pos);
+                break;
+            case 7:
+                cout<<"Enter position: ";
+                cin>>pos;
+                GetElem(sp, elem, pos);
+                
+                break;
+            case 8:
+                cout<<"the list is "<<show_length(sp)<<" elements long.\n";
+            break;
+            case 9:
+                cout<<"Enter the value: ";
+                cin>>elem;
+                delete_val(sp,elem);
+                cout<<elem<<" deleted from the list.\n";
+            break;
+            case 10:
+                cout<<"Enter the position: ";
+                cin>>pos;
+                delete_pos(sp,elem,pos);
+                cout<<elem<<" deleted from the list.\n";
+            break;
+            case 11:
+                reverse(sp);
+                break;
+            case 12:
+                sort(sp);
+                break;
+            case 13:
+            clear(sp);
+                break;
+            case 14:
+            cout<<"Enter element:";
+            cin>>elem;
+            pos = find_val(sp,elem);
+            if (pos)
+            {   
+                cout<<"element "<<elem<< "is in the "<< pos <<" position.\n";
+            }
+            break;
             default:
                 cout<<"Wrong input.\n";
                 break;
